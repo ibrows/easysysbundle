@@ -1,26 +1,25 @@
 <?php
 
 namespace Ibrows\EasySysBundle\SaveHandler;
-use Symfony\Component\Console\Output\NullOutput;
 
-use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @author marcsteiner
- *
+ * @author dominikzogg
  */
 class BaseHandler implements HandlerInterface
 {
-
     /**
      * @var OutputInterface
      */
     protected $out;
 
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var EntityManager
      */
     protected $em;
 
@@ -35,6 +34,11 @@ class BaseHandler implements HandlerInterface
     protected $defaultClass = '\stdClass';
 
     /**
+     * @var string
+     */
+    protected $prefix = 'Easysys';
+
+    /**
      * @param Registry $doctrine
      */
     public function __construct(Registry $doctrine)
@@ -44,6 +48,11 @@ class BaseHandler implements HandlerInterface
         $this->classmap = array();
     }
 
+    /**
+     * @param array $data
+     * @param null $type
+     * @return bool
+     */
     public function saveData(array $data, $type = null)
     {
         $class = $this->getClassForType($type);
@@ -51,23 +60,36 @@ class BaseHandler implements HandlerInterface
             return false;
         }
         $object = new $class();
-        foreach ($data as $field => $value) {
-            $methodName = 'set' . ucfirst($value);
-            if (method_exists($object, 'set' . $value)) {
-                $class->$methodName($value);
+        foreach($data as $entry) {
+            foreach ($entry as $field => $value) {
+                $methodName = 'set' . $this->prefix . ucfirst($field);
+                if (method_exists($object, $methodName)) {
+                    $object->$methodName($value);
+                }
             }
         }
+
         $this->em->persist($object);
         return true;
     }
-    public function complete(){
+
+    public function complete()
+    {
         $this->em->flush();
     }
+
+    /**
+     * @param OutputInterface $out
+     */
     public function setOutput(OutputInterface $out)
     {
         $this->out = $out;
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     protected function getClassForType($type)
     {
         if (array_key_exists($type, $this->classmap)) {
@@ -86,7 +108,7 @@ class BaseHandler implements HandlerInterface
 
     /**
      * @param array $classmap
-     * @return \Ibrows\EasySysBundle\Connection\BaseHandler
+     * @return $this
      */
     public function setClassmap(array $classmap)
     {
@@ -104,11 +126,11 @@ class BaseHandler implements HandlerInterface
 
     /**
      * @param string $defaultClass
+     * @return $this
      */
     public function setDefaultClass($defaultClass)
     {
         $this->defaultClass = $defaultClass;
         return $this;
     }
-
 }
