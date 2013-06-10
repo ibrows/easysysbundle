@@ -1,0 +1,21 @@
+{
+    "name":         "ibrows/easysys-bundle",
+    "description":  "Ibrows Easy",
+    "keywords":     ["ibrows", "easy"],
+    "type":         "symfony-bundle",
+    "license":      "MIT",
+    "authors": [
+        {
+            "name":     "Marc Steiner",
+            "email":    "marc.steiner@ibrows.ch"
+        }
+    ],
+    "require": {
+        "symfony/symfony": "2.2.*",
+    },
+    "autoload": {
+        "psr-0": { "Ibrows\EasySysBundle": "" }
+    },
+    "target-dir": "Ibrows/EasySysBundle",
+    "minimum-stability": "dev"
+}
