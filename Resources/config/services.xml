@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<parameter key="ibrows.easysys.connection.class">Ibrows\EasySysBundle\Connection\Connection</parameter>
+		<parameter key="ibrows.easysys.savehandler.class">Ibrows\EasySysBundle\SaveHandler\BaseHandler</parameter>
+		<parameter key="ibrows.easysys.contact.class">Ibrows\EasySysBundle\API\Contact</parameter>
+		<parameter key="ibrows.easysys.order.class">Ibrows\EasySysBundle\API\Order</parameter>
+	</parameters>
+
+	<services>
+		<service id="ibrows.easysys.connection" class="%ibrows.easysys.connection.class%">
+			<argument>%ibrows_easy_sys.connection.serviceUri%</argument>
+			<argument>%ibrows_easy_sys.connection.companyName%</argument>
+			<argument>%ibrows_easy_sys.connection.apiKey%</argument>
+			<argument>%ibrows_easy_sys.connection.signatureKey%</argument>
+			<argument>%ibrows_easy_sys.connection.userId%</argument>
+			<argument>%ibrows_easy_sys.connection.format%</argument>
+		</service>
+		
+		<service id="ibrows.easysys.contact" class="%ibrows.easysys.contact.class%">
+			<argument type="service" id="ibrows.easysys.connection" />
+		</service>
+		<service id="ibrows.easysys.order" class="%ibrows.easysys.order.class%">
+			<argument type="service" id="ibrows.easysys.connection" />
+		</service>
+
+
+		<service id="ibrows.easysys.savehandler" class="%ibrows.easysys.savehandler.class%">
+			<argument type="service" id="doctrine" />
+			<call method="setClassmap">
+				<argument>%ibrows_easy_sys.classes%</argument>
+			</call>
+			<call method="setDefaultClass">
+				<argument>%ibrows_easy_sys.classes.default%</argument>
+			</call>
+		</service>
+
+	</services>
+</container>
