@@ -59,17 +59,16 @@ class BaseHandler implements HandlerInterface
         if($class == null){
             return false;
         }
-        $object = new $class();
         foreach($data as $entry) {
+            $object = new $class();
             foreach ($entry as $field => $value) {
                 $methodName = 'set' . $this->prefix . ucfirst($field);
                 if (method_exists($object, $methodName)) {
                     $object->$methodName($value);
                 }
             }
+            $this->om->persist($object);
         }
-
-        $this->om->persist($object);
         return true;
     }
 
