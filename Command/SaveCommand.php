@@ -31,7 +31,6 @@ class SaveCommand extends ContainerAwareCommand
 
     protected function configure()
     {
-
         $this->setName('ibrows:easysys:save')->setDescription('Import from Easysys');
         $this->addArgument('type', InputArgument::REQUIRED, implode(' | ', self::getTypes()));
         $this->addArgument('vars', InputArgument::IS_ARRAY);
@@ -51,9 +50,8 @@ class SaveCommand extends ContainerAwareCommand
                 exit(1);
             }
         } else {
-            throw new \Exception("$action not valid use 'all' or: " . implode(' | ', self::getTypes()));
+            throw new \Exception("$type not valid use 'all' or: " . implode(' | ', self::getTypes()));
         }
-
     }
 
     protected function save($type, $vars, $output)
@@ -61,10 +59,8 @@ class SaveCommand extends ContainerAwareCommand
         $output->writeln("start save <info>{$type}</info>");
         $service = $this->getContainer()->get('ibrows.easysys.' . $type);
         $service->setOutput($output);
-        $result = call_user_method_array('save', $service, $vars);
+        $result = call_user_func_array(array($service, 'save'), $vars);
         var_dump($result);
-        $service->createOrderPositionArticle($result['id'], 3, 15.50, 6, 1492);
         return true;
-
     }
 }
