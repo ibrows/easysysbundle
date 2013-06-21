@@ -3,7 +3,7 @@
 namespace Ibrows\EasySysBundle\SaveHandler;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -19,9 +19,9 @@ class BaseHandler implements HandlerInterface
     protected $out;
 
     /**
-     * @var EntityManager
+     * @var ObjectManager
      */
-    protected $em;
+    protected $om;
 
     /**
      * @var array
@@ -43,7 +43,7 @@ class BaseHandler implements HandlerInterface
      */
     public function __construct(Registry $doctrine)
     {
-        $this->em = $doctrine->getEntityManager();
+        $this->om = $doctrine->getManager();
         $this->out = new NullOutput();
         $this->classmap = array();
     }
@@ -59,23 +59,22 @@ class BaseHandler implements HandlerInterface
         if($class == null){
             return false;
         }
-        $object = new $class();
         foreach($data as $entry) {
+            $object = new $class();
             foreach ($entry as $field => $value) {
                 $methodName = 'set' . $this->prefix . ucfirst($field);
                 if (method_exists($object, $methodName)) {
                     $object->$methodName($value);
                 }
             }
+            $this->om->persist($object);
         }
-
-        $this->em->persist($object);
         return true;
     }
 
     public function complete()
     {
-        $this->em->flush();
+        $this->om->flush();
     }
 
     /**
