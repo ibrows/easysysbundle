@@ -89,7 +89,7 @@ class BaseHandler implements HandlerInterface
      * @param string $type
      * @return string
      */
-    protected function getClassForType($type)
+    public function getClassForType($type)
     {
         if (array_key_exists($type, $this->classmap)) {
             return $this->classmap[$type];
