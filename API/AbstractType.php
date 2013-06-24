@@ -31,7 +31,7 @@ class AbstractType
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-        $this->out = new NullOutput();
+        $this->output = new NullOutput();
 
     }
 
@@ -113,6 +113,11 @@ class AbstractType
         return $crits;
     }
 
+    /**
+     * @param array $vars
+     * @param string $type
+     * @return array
+     */
     public function create($vars, $type = null)
     {
         if (!$type) {

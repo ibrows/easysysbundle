@@ -1,8 +1,6 @@
 <?php
 namespace Ibrows\EasySysBundle\API;
-
 use Ibrows\EasySysBundle\Connection\Connection;
-
 
 /**
  * @author marcsteiner
@@ -13,16 +11,23 @@ class Contact extends AbstractType
 
     protected $typeIdPrivate = 2;
     protected $typeIdCompany = 1;
-    protected $groupId = 151;
+    protected $groupId = array(
+            151
+    );
     protected $countryId = 1;
     protected $description = 'Kontaktperson';
 
-    public function __construct(Connection $connection){
+    const IDENTIFY_PRECISION_NONE = 0;
+    const IDENTIFY_PRECISION_MINIMUM = 1;
+    const IDENTIFY_PRECISION_ALL = 31;
+
+    public function __construct(Connection $connection)
+    {
         parent::__construct($connection);
         $this->type = 'contact';
     }
 
-    public function searchForExisitngPerson($mail, $firstname=null, $name=null, $zip = null, $city = null)
+    public function searchForExistingPerson($mail, $firstname = null, $name = null, $zip = null, $city = null)
     {
         $simplecrits = array(
                 'name_1' => $name,
@@ -35,7 +40,7 @@ class Contact extends AbstractType
         return $this->find($simplecrits);
     }
 
-    public function searchForExisitngCompany($plz, $city, $company)
+    public function searchForExistingCompany($plz, $city, $company)
     {
         $simplecrits = array(
                 'name_1' => $company,
@@ -45,7 +50,6 @@ class Contact extends AbstractType
         return $this->find($simplecrits);
 
     }
-
 
     public function createCompany($name, $address, $postcode, $city)
     {
@@ -66,10 +70,7 @@ class Contact extends AbstractType
         $myAry['user_id'] = $this->connection->getUserId();
         $myAry['owner_id'] = $this->connection->getUserId();
         $myAry['country_id'] = $this->countryId;
-        $myAry['contact_group_ids'] = array(
-                $this->groupId
-        );
-
+        $myAry['contact_group_ids'] = $this->groupId;
         return $this->connection->call('contact', array(), $myAry, "POST");
     }
 
@@ -88,11 +89,16 @@ class Contact extends AbstractType
         return $this->connection->call('contact_relation', array(), $data, 'POST');
     }
 
-    protected function addContactWithCompany($name, $firstname, $mail, $zip, $city, $address, $phone, $company)
+    protected function addContactWithCompany($name, $firstname, $mail, $zip, $city, $address, $phone, $company, $identify_precision = self::IDENTIFY_PRECISION_MINIMUM)
     {
         $this->output->writeln("try to add company <comment>$company</comment>");
-        $contactcompany = $this->searchForExisitngCompany($zip, $city, $company);
-
+        $contactcompany = $this->searchForExistingCompany($zip, $city, $company);
+        $contactcompany = array();
+        if ($identify_precision == self::IDENTIFY_PRECISION_MINIMUM) {
+            $contactcompany = $this->searchForExistingCompany(null, null, $company);
+        } elseif ($identify_precision == self::IDENTIFY_PRECISION_ALL) {
+            $contactcompany = $this->searchForExistingCompany($zip, $city, $company);
+        }
         if (sizeof($contactcompany) > 0 && isset($contactcompany[0]['id'])) {
             $this->output->writeln("found company <comment>$zip, $city, $company</comment>");
             $contactcompany = $contactcompany[0];
@@ -102,9 +108,14 @@ class Contact extends AbstractType
         }
         $companyid = $contactcompany['id'];
         $this->output->writeln("try to add person <comment>$mail</comment>");
-        $person = $this->searchForExisitngPerson($mail);
+        $person = array();
+        if ($identify_precision == self::IDENTIFY_PRECISION_MINIMUM) {
+            $person = $this->searchForExistingPerson($mail);
+        } elseif ($identify_precision == self::IDENTIFY_PRECISION_ALL) {
+            $person = $this->searchForExistingPerson($mail, $firstname, $name, $zip, $city);
+        }
         if (sizeof($person) > 0 && isset($person[0]['id'])) {
-            $this->output->writeln("found person <comment>$mail</comment>");
+            $this->output->writeln("found person <comment>$mail</comment>  <info>". $person[0]['id']."</info>");
             $person = $person[0];
 
         } else {
@@ -120,13 +131,19 @@ class Contact extends AbstractType
         } else {
             $this->output->writeln("relation allerady exists<comment>$companyid, $personid</comment>");
         }
+        $person['company'] = $companyid;
         return $person;
     }
 
-    protected function addContactWithoutCompany($name, $firstname, $mail, $zip, $city, $address, $phone)
+    protected function addContactWithoutCompany($name, $firstname, $mail, $zip, $city, $address, $phone, $identify_precision = self::IDENTIFY_PRECISION_MINIMUM)
     {
         $this->output->writeln("try to add person <comment>$name, $firstname</comment>");
-        $person = $this->searchForExisitngPerson($mail);
+        $person = array();
+        if ($identify_precision == self::IDENTIFY_PRECISION_MINIMUM) {
+            $person = $this->searchForExistingPerson($mail);
+        } elseif ($identify_precision == self::IDENTIFY_PRECISION_ALL) {
+            $person = $this->searchForExistingPerson($mail, $firstname, $name, $zip, $city);
+        }
         if (sizeof($person) > 0 && isset($person[0]['id'])) {
             $this->output->writeln("found person <comment>$name, $firstname</comment>");
             $person = $person[0];
@@ -138,25 +155,26 @@ class Contact extends AbstractType
         return $person;
     }
 
-    public function addContact($name, $firstname, $mail, $zip, $city, $address, $phone = null, $company = null)
+    public function addContact($name, $firstname, $mail, $zip, $city, $address, $phone = null, $company = null, $identify_precision = self::IDENTIFY_PRECISION_MINIMUM)
     {
         $this->output->writeln("try to add contact <comment>$name</comment>");
         $id = null;
         if ($company != null) {
-            return $this->addContactWithCompany($name, $firstname, $mail, $zip, $city, $address, $phone, $company);
+            return $this->addContactWithCompany($name, $firstname, $mail, $zip, $city, $address, $phone, $company, $identify_precision);
         } else {
-            return $this->addContactWithoutCompany($name, $firstname, $mail, $zip, $city, $address, $phone);
+            return $this->addContactWithoutCompany($name, $firstname, $mail, $zip, $city, $address, $phone, $identify_precision);
         }
-
     }
 
-    public function save(){
-        return call_user_method_array('addContact', $this,func_get_args());
+    public function save()
+    {
+        return call_user_method_array('addContact', $this, func_get_args());
     }
 
-    public function create($vars,$type=null){
+    public function create($vars, $type = null)
+    {
         $vars['owner_id'] = $this->connection->getUserId();
-        return parent::create($vars,$type);
+        return parent::create($vars, $type);
     }
     /**
      * @return int
@@ -193,7 +211,7 @@ class Contact extends AbstractType
     }
 
     /**
-     * @return int
+     * @return array
      */
     public function getGroupId()
     {
@@ -205,7 +223,13 @@ class Contact extends AbstractType
      */
     public function setGroupId($groupId)
     {
-        $this->groupId = $groupId;
+        if (is_array($groupId)) {
+            $this->groupId = $groupId;
+        } else {
+            $this->groupId = array(
+                    $groupId
+            );
+        }
         return $this;
     }
 
@@ -242,5 +266,4 @@ class Contact extends AbstractType
         $this->description = $description;
         return $this;
     }
-
 }

@@ -8,6 +8,8 @@
         <parameter key="ibrows.easysys.savehandler.class">Ibrows\EasySysBundle\SaveHandler\BaseHandler</parameter>
         <parameter key="ibrows.easysys.contact.class">Ibrows\EasySysBundle\API\Contact</parameter>
         <parameter key="ibrows.easysys.order.class">Ibrows\EasySysBundle\API\Order</parameter>
+        <parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysBundle\API\Invoice</parameter>
+        <parameter key="ibrows.easysys.offer.class">Ibrows\EasySysBundle\API\Offer</parameter>
         <parameter key="ibrows.easysys.monitoring.class">Ibrows\EasySysBundle\API\Monitoring</parameter>
     </parameters>
 
@@ -27,6 +29,12 @@
         <service id="ibrows.easysys.order" class="%ibrows.easysys.order.class%">
             <argument type="service" id="ibrows.easysys.connection" />
         </service>
+        <service id="ibrows.easysys.offer" class="%ibrows.easysys.offer.class%">
+            <argument type="service" id="ibrows.easysys.connection" />
+        </service>
+        <service id="ibrows.easysys.invoice" class="%ibrows.easysys.invoice.class%">
+            <argument type="service" id="ibrows.easysys.connection" />
+        </service>                
         <service id="ibrows.easysys.monitoring" class="%ibrows.easysys.monitoring.class%">
             <argument type="service" id="ibrows.easysys.connection" />
         </service>

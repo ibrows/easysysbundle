@@ -6,13 +6,13 @@ use Ibrows\EasySysBundle\Connection\Connection;
  *
  */
 
-class OrderPositionArticle extends AbstractType
+class OrderPositionStandard extends AbstractType
 {
 
     public function __construct(Connection $connection, $parentType, $parentId)
     {
         parent::__construct($connection);
-        $this->type = 'kb_position_article';
+        $this->type = 'kb_position_custom';
         $this->parentType = $parentType;
         $this->parentId = $parentId;
     }
