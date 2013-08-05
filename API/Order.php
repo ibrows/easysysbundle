@@ -15,6 +15,10 @@ class Order extends AbstractType
     protected $currency_id = 2;
     protected $mwst_type = self::MWST_TYPE_INCLUSIVE;
     protected $mwst_is_net = false;
+    /**
+     * @var OrderPositionDiscount
+     */
+    protected $positionDiscountAPI = null;
 
     /**
      * @var OrderPositionArticle
@@ -30,6 +34,17 @@ class Order extends AbstractType
     {
         parent::__construct($connection);
         $this->type = 'kb_order';
+    }
+
+    /**
+     * @return OrderPositionArticle
+     */
+    protected function getPositionDiscountAPI()
+    {
+        if ($this->positionDiscountAPI == null) {
+            $this->positionDiscountAPI = new OrderPositionDiscount($this->connection, $this->type, null);
+        }
+        return $this->positionDiscountAPI;
     }
 
     /**
@@ -73,7 +88,8 @@ class Order extends AbstractType
     {
         $this->getPositionArticleAPI()->setParentId($parent_id);
         $vars = compact(array_keys(get_defined_vars()));
-        return $this->getPositionArticleAPI()->create($vars);
+        unset($vars['parent_id']);
+        return $this->getPositionArticleAPI()->create($vars,null,false);
     }
 
 
@@ -89,10 +105,26 @@ class Order extends AbstractType
      */
     public function createPositionStandard($parent_id, $amount, $tax_id, $unit_price = null, $discount_in_percent = null, $text = null, $unit_id = null)
     {
-
         $this->getPositionAPI()->setParentId($parent_id);
         $vars = compact(array_keys(get_defined_vars()));
-        return $this->getPositionAPI()->create($vars);
+        unset($vars['parent_id']);
+        return $this->getPositionAPI()->create($vars,null,false);
+    }
+
+
+    /**
+     * @param Ressource $parent_id
+     * @param decimal $value
+     * @param string $is_percentual
+     * @param string $text
+     * @return array
+     */
+    public function createPositionDiscount($parent_id, $value, $is_percentual = null, $text = null)
+    {
+        $this->getPositionDiscountAPI()->setParentId($parent_id);
+        $vars = compact(array_keys(get_defined_vars()));
+        unset($vars['parent_id']);
+        return $this->getPositionDiscountAPI()->create($vars,null,false);
     }
 
     /**

@@ -171,10 +171,10 @@ class Contact extends AbstractType
         return call_user_method_array('addContact', $this, func_get_args());
     }
 
-    public function create($vars, $type = null)
+    public function create($vars, $type = null, $userid=true)
     {
         $vars['owner_id'] = $this->connection->getUserId();
-        return parent::create($vars, $type);
+        return parent::create($vars, $type,$userid);
     }
     /**
      * @return int

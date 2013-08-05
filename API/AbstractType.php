@@ -118,7 +118,7 @@ class AbstractType
      * @param string $type
      * @return array
      */
-    public function create($vars, $type = null)
+    public function create($vars, $type = null, $userid=true)
     {
         if (!$type) {
             $type = $this->type;
@@ -126,7 +126,9 @@ class AbstractType
         if ($this->parentType) {
             $type = "{$this->parentType}/{$this->parentId}/$type";
         }
-        $vars['user_id'] = $this->connection->getUserId();
+        if ($userid) {
+            $vars['user_id'] = $this->connection->getUserId();
+        }
         return $this->connection->call($type, array(), $vars, "POST");
     }
 
