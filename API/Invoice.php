@@ -15,5 +15,7 @@ class Invoice extends Order
         $this->type = 'kb_invoice';
     }
 
-
+    public function markAsInvoiced($id){
+    	return $this->connection->call("$this->type/$id/issue", array(), array(), "POST");
+    }
 }
