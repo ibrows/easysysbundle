@@ -12,6 +12,9 @@ class Order extends AbstractType
     const MWST_TYPE_EXCLUSIVE = 1;
     const MWST_TYPE_FREE = 2;
 
+    const DELIVERY_TYPE_INVOICE = 0;
+    const DELIVERY_TYPE_OWN = 1;
+
     protected $currency_id = 2;
     protected $mwst_type = self::MWST_TYPE_INCLUSIVE;
     protected $mwst_is_net = false;
@@ -133,9 +136,12 @@ class Order extends AbstractType
      * @param string $title
      * @return array
      */
-    public function createNew($contact_id, $contact_sub_id = null, $title = null)
+    public function createNew($contact_id, $contact_sub_id = null, $title = null, $api_reference = null, $additionalvars = array())
     {
+
         $vars = compact(array_keys(get_defined_vars()));
+        unset($vars['additionalvars']);
+        $vars = array_merge($vars,$additionalvars);
         $vars['mwst_type'] = $this->mwst_type;
         $vars['mwst_is_net'] = $this->mwst_is_net;
         return $this->create($vars);
