@@ -92,7 +92,6 @@ class Contact extends AbstractType
     protected function addContactWithCompany($name, $firstname, $mail, $zip, $city, $address, $phone, $company, $identify_precision = self::IDENTIFY_PRECISION_MINIMUM)
     {
         $this->output->writeln("try to add company <comment>$company</comment>");
-        $contactcompany = $this->searchForExistingCompany($zip, $city, $company);
         $contactcompany = array();
         if ($identify_precision == self::IDENTIFY_PRECISION_MINIMUM) {
             $contactcompany = $this->searchForExistingCompany(null, null, $company);
