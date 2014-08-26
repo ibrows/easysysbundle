@@ -23,13 +23,13 @@ class Connection
 
     const CURL_TIMEOUT_IN_SECS = 10;
 
-    private $availableFormats = array(
+    protected $availableFormats = array(
             self::API_FORMAT_JSON
     );
-    private $format = self::API_FORMAT_JSON; //json
-    private $callUrl;
-    private $signatureKey;
-    private $userId;
+    protected $format = self::API_FORMAT_JSON; //json
+    protected $callUrl;
+    protected $signatureKey;
+    protected $userId;
 
     /**
      * Constructor
