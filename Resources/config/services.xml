@@ -11,6 +11,7 @@
         <parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysBundle\API\Invoice</parameter>
         <parameter key="ibrows.easysys.offer.class">Ibrows\EasySysBundle\API\Offer</parameter>
         <parameter key="ibrows.easysys.monitoring.class">Ibrows\EasySysBundle\API\Monitoring</parameter>
+        <parameter key="ibrows.easysys.invoice.reminder.class">Ibrows\EasySysBundle\API\InvoiceReminder</parameter>
     </parameters>
 
     <services>
@@ -36,6 +37,9 @@
             <argument type="service" id="ibrows.easysys.connection" />
         </service>                
         <service id="ibrows.easysys.monitoring" class="%ibrows.easysys.monitoring.class%">
+            <argument type="service" id="ibrows.easysys.connection" />
+        </service>
+        <service id="ibrows.easysys.invoice.reminder" class="%ibrows.easysys.invoice.reminder.class%">
             <argument type="service" id="ibrows.easysys.connection" />
         </service>
 

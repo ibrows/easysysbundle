@@ -18,4 +18,12 @@ class Invoice extends Order
     public function markAsInvoiced($id){
     	return $this->connection->call("$this->type/$id/issue", array(), array(), "POST");
     }
+
+    public function markAsPayed($id, $value){
+        return $this->connection->call("$this->type/$id/payment", array(), array('value' => $value), "POST");
+    }
+
+    public function show($id){
+        return $this->connection->call("$this->type/$id");
+    }
 }

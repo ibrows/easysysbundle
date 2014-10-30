@@ -1,6 +1,7 @@
 <?php
 namespace Ibrows\EasySysBundle\API;
 use Ibrows\EasySysBundle\Connection\Connection;
+
 /**
  * @author marcsteiner
  *
@@ -145,6 +146,29 @@ class Order extends AbstractType
         $vars['mwst_type'] = $this->mwst_type;
         $vars['mwst_is_net'] = $this->mwst_is_net;
         return $this->create($vars);
+    }
+
+    /**
+     * @param $id
+     * @return mixed|string
+     */
+    public function createOrderRepetition($id){
+        $dateStart = new \DateTime();
+        $dateEnd = new \DateTime();
+
+        $startDate = $dateStart->modify('+1 week')->format('Y-m-d');
+        $endDate = $dateEnd->modify('+1 week')->modify('+2 year')->format('Y-m-d');
+        $postParams = array(
+            'start' => $startDate,
+            'end' => $endDate,
+            'repetition' => array(
+                'type' => 'weekly',
+                'interval' => 1,
+                'weekdays' => array('monday')
+            )
+        );
+
+        return $this->connection->call("$this->type/$id/repetition", array(), $postParams, "POST");
     }
 
     public function getCurrency_id()
