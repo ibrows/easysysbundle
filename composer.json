@@ -25,7 +25,8 @@
         "symfony/config": "~2.5",
         "symfony/dependency-injection": "~2.5",
         "symfony/http-kernel": "~2.5",
-        "ibrows/easysys-library": "dev-master"
+        "ibrows/easysys-library": "dev-master",
+        "saxulum/saxulum-http-client-adapter-buzz": "~1.0,>=1.0.4"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.3"
