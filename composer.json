@@ -1,21 +1,35 @@
 {
-    "name":         "ibrows/easysys-bundle",
-    "description":  "Ibrows Easy",
-    "keywords":     ["ibrows", "easy"],
-    "type":         "symfony-bundle",
-    "license":      "MIT",
+    "name": "ibrows/easysys-bundle",
+    "description": "Ibrows Easysys Bundle provides simple access to Easysysdata over API",
+    "keywords": [
+        "ibrows",
+        "easy"
+    ],
+    "type": "symfony-bundle",
+    "license": "MIT",
     "authors": [
         {
-            "name":     "Marc Steiner",
-            "email":    "marc.steiner@ibrows.ch"
+            "name": "Marc Steiner",
+            "email": "marc.steiner@ibrows.ch"
+        },
+        {
+            "name": "Mike Meier",
+            "email": "mike.meier@ibrows.ch"
         }
     ],
     "require": {
         "php": ">=5.3.3",
         "symfony/console": ">=2.2.0",
-        "symfony/framework-bundle": ">=2.2.0"
+        "symfony/config": "~2.5",
+        "symfony/dependency-injection": "~2.5",
+        "symfony/http-kernel": "~2.5",
+        "saxulum/saxulum-http-client-interface": "~1.3",
+        "saxulum/saxulum-http-client-adapter-buzz": "~1.0,>=1.0.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.3"
     },
     "autoload": {
-        "psr-4": { "Ibrows\\EasySysBundle\\": "" }
+        "psr-4": {"Ibrows\\EasySysBundle\\": ""}
     }
 }
