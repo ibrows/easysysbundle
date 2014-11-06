@@ -1,6 +1,7 @@
 <?php
 namespace Ibrows\EasySysBundle\API;
 use Ibrows\EasySysBundle\Connection\Connection;
+use Ibrows\EasySysBundle\Connection\ConnectionInterface;
 
 /**
  * @author marcsteiner
@@ -21,7 +22,7 @@ class Contact extends AbstractType
     const IDENTIFY_PRECISION_MINIMUM = 1;
     const IDENTIFY_PRECISION_ALL = 31;
 
-    public function __construct(Connection $connection)
+    public function __construct(ConnectionInterface $connection)
     {
         parent::__construct($connection);
         $this->type = 'contact';

@@ -1,5 +1,6 @@
 <?php
 namespace Ibrows\EasySysBundle\API;
+use Ibrows\EasySysBundle\Connection\ConnectionInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Symfony\Component\Console\Output\NullOutput;
@@ -28,7 +29,7 @@ class AbstractType
     protected $parentType;
     protected $parentId;
 
-    public function __construct(Connection $connection)
+    public function __construct(ConnectionInterface $connection)
     {
         $this->connection = $connection;
         $this->output = new NullOutput();
