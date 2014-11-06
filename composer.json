@@ -16,7 +16,6 @@
         "symfony/framework-bundle": ">=2.2.0"
     },
     "autoload": {
-        "psr-0": { "Ibrows\\EasySysBundle\\": "" }
-    },
-    "target-dir": "Ibrows/EasySysBundle"
+        "psr-4": { "Ibrows\\EasySysBundle\\": "" }
+    }
 }
