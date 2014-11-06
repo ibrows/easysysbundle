@@ -34,7 +34,7 @@ class APITest extends \PHPUnit_Framework_TestCase
     public function testContactSearch()
     {
         $api = $this->getContactApi();
-        $this->assertTrue(method_exists($api, 'search'), 'search update dont exists');
+        $this->assertMethod($api,'search');
         $contacts = $api->search(array('name' => 'gugus'));
         if (is_object($contacts)) {
             $this->assertInstanceOf('\Iterator', $contacts);
@@ -45,19 +45,23 @@ class APITest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Iterator', $contact);
     }
 
+    protected function assertMethod($object, $method){
+        $this->assertTrue(method_exists($object, $method), "method $method don't exists");
+    }
 
     public function testContactCreate()
     {
         $api = $this->getContactApi();
-        $this->assertTrue(method_exists($api, 'createFromArray'), 'create createFromArray dont exists');
+
+        $this->assertMethod($api,'createFromArray');
         $contact = $api->createFromArray(array('name' => 'gugus'));
         $this->assertInstanceOf('Ibrows\EasySysBundle\Model\Contact', $contact);
 
-        $this->assertTrue(method_exists($api, 'create'), 'create create dont exists');
+        $this->assertMethod($api,'create');
         $contact = $api->create('myname');
         $this->assertInstanceOf('Ibrows\EasySysBundle\Model\Contact', $contact);
 
-        $this->assertTrue(method_exists($api, 'createFromObject'), 'create createFromObject dont exists');
+        $this->assertMethod($api,'createFromObject');
         $contact = $api->createFromObject(new Contact());
         $this->assertInstanceOf('Ibrows\EasySysBundle\Model\Contact', $contact);
     }
@@ -65,15 +69,16 @@ class APITest extends \PHPUnit_Framework_TestCase
     public function testContactUpdate()
     {
         $api = $this->getContactApi();
-        $this->assertTrue(method_exists($api, 'updateFromArray'), 'update updateFromArray dont exists');
+
+        $this->assertMethod($api,'updateFromArray');
         $contact = $api->updateFromArray(array('name' => 'gugus'));
         $this->assertInstanceOf('Ibrows\EasySysBundle\Model\Contact', $contact);
 
-        $this->assertTrue(method_exists($api, 'update'), 'create update dont exists');
+        $this->assertMethod($api,'update');
         $contact = $api->update('myname');
         $this->assertInstanceOf('Ibrows\EasySysBundle\Model\Contact', $contact);
 
-        $this->assertTrue(method_exists($api, 'updateFromObject'), 'create updateFromObject dont exists');
+        $$this->assertMethod($api,'updateFromObject');
         $contact = $api->updateFromObject(new Contact());
         $this->assertInstanceOf('Ibrows\EasySysBundle\Model\Contact', $contact);
 
@@ -81,7 +86,10 @@ class APITest extends \PHPUnit_Framework_TestCase
 
     public function testContactDelete()
     {
-
+        $api = $this->getContactApi();
+        $this->assertMethod($api,'delete');
+        $return = $api->delete(1);
+        $this->assertTrue($return);
 
     }
 
