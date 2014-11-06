@@ -3,7 +3,9 @@
     "description": "Ibrows Easysys Bundle provides simple access to Easysysdata over API",
     "keywords": [
         "ibrows",
-        "easy"
+        "easysys",
+        "bundle",
+        "api"
     ],
     "type": "symfony-bundle",
     "license": "MIT",
@@ -23,8 +25,7 @@
         "symfony/config": "~2.5",
         "symfony/dependency-injection": "~2.5",
         "symfony/http-kernel": "~2.5",
-        "saxulum/saxulum-http-client-interface": "~1.3",
-        "saxulum/saxulum-http-client-adapter-buzz": "~1.0,>=1.0.4"
+        "ibrows/easysys-library": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.3"
