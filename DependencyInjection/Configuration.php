@@ -26,6 +26,7 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->arrayNode('connection')->addDefaultsIfNotSet()->isRequired()->cannotBeEmpty()
                 ->children()
+                    ->scalarNode('httpClient')->defaultValue('ibrows.easysys.connection.httpclient')->end()
                     ->scalarNode('serviceUri')->defaultValue('https://dev.easysys.ch/api2.php')->end()
                     ->scalarNode('companyName')->isRequired()->cannotBeEmpty()->end()
                     ->scalarNode('apiKey')->isRequired()->cannotBeEmpty()->end()

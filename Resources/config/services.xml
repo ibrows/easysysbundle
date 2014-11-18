@@ -13,6 +13,10 @@
         <!--<parameter key="ibrows.easysys.offer.class">Ibrows\EasySysBundle\API\Offer</parameter>-->
         <!--<parameter key="ibrows.easysys.monitoring.class">Ibrows\EasySysBundle\API\Monitoring</parameter>-->
         <!--<parameter key="ibrows.easysys.invoice.reminder.class">Ibrows\EasySysBundle\API\InvoiceReminder</parameter>-->
+
+        <parameter key="ibrows.easysys.connection.httpclient.buzz.client.class">Buzz\Client\Curl</parameter>
+        <parameter key="ibrows.easysys.connection.httpclient.buzz.browser.class">Buzz\Browser</parameter>
+        <parameter key="ibrows.easysys.connection.httpclient.class">Saxulum\httpclient\Buzz\httpclient</parameter>
     </parameters>
 
     <services>
@@ -53,6 +57,20 @@
                 <argument>%ibrows_easy_sys.classes.default%</argument>
             </call>
         </service>
+
+
+        <service id="ibrows.easysys.connection.httpclient.buzz.client" class="%ibrows.easysys.connection.httpclient.buzz.client.class%">
+            <call method="setVerifyPeer">
+                <argument>false</argument>
+            </call>
+        </service>
+        <service id="ibrows.easysys.connection.httpclient.buzz.browser" class="%ibrows.easysys.connection.httpclient.buzz.browser.class%">
+            <argument type="service" id="ibrows.easysys.connection.httpclient.buzz.client" />
+        </service>
+        <service id="ibrows.easysys.connection.httpclient" class="%ibrows.easysys.connection.httpclient.class%">
+            <argument type="service" id="ibrows.easysys.connection.httpclient.buzz.browser" />
+        </service>
+
 
     </services>
 </container>
