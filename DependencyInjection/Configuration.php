@@ -24,13 +24,13 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->arrayNode('connection')
+            ->arrayNode('connection')->addDefaultsIfNotSet()->isRequired()->cannotBeEmpty()
                 ->children()
                     ->scalarNode('serviceUri')->defaultValue('https://dev.easysys.ch/api2.php')->end()
-                    ->scalarNode('companyName')->end()
-                    ->scalarNode('apiKey')->end()
-                    ->scalarNode('signatureKey')->end()
-                    ->scalarNode('userId')->end()
+                    ->scalarNode('companyName')->isRequired()->cannotBeEmpty()->end()
+                    ->scalarNode('apiKey')->isRequired()->cannotBeEmpty()->end()
+                    ->scalarNode('signatureKey')->isRequired()->cannotBeEmpty()->end()
+                    ->scalarNode('userId')->isRequired()->cannotBeEmpty()->end()
                     ->scalarNode('format')->defaultValue('json')->end()
                 ->end()
             ->end()
@@ -43,12 +43,12 @@ class Configuration implements ConfigurationInterface
         ;
         $classes = $rootNode
         ->children()
-        ->arrayNode('classes')
+        ->arrayNode('classes')->addDefaultsIfNotSet()
                 ->children()
-                    ->scalarNode('default')->end();
+                    ->scalarNode('default')->defaultNull()->end();
 
                     foreach(IbrowsEasySysBundle::getTypes() as $key => $typename){
-                        $classes->scalarNode($typename)->end();
+                        $classes->scalarNode($typename)->defaultNull()->end();
                     }
         $classes->end()->end();
 

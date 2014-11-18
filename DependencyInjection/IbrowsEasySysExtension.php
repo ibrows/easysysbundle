@@ -22,12 +22,8 @@ class IbrowsEasySysExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $this->registerContainerParametersRecursive($config, $container);
         $connection = $container->getDefinition("ibrows.easysys.connection");
-        $rfClass = new \ReflectionClass($connection->getClass());
         foreach ($config['connection'] as $key => $value) {
-            if ($rfClass->hasMethod('set' . $key)) {
                 $connection->addMethodCall('set' . $key, array($value));
-            }
-
         }
     }
 
