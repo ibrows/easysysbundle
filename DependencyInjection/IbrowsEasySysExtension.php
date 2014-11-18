@@ -3,6 +3,7 @@
 namespace Ibrows\EasySysBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -22,8 +23,10 @@ class IbrowsEasySysExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $this->registerContainerParametersRecursive($config, $container);
         $connection = $container->getDefinition("ibrows.easysys.connection");
+        $connection->replaceArgument(0,new Reference($config['connection']['httpClientServiceId']));
+        unset($config['connection']['httpClientServiceId']);
         foreach ($config['connection'] as $key => $value) {
-                $connection->addMethodCall('set' . $key, array($value));
+                $connection->addMethodCall('set' . ucfirst($key), array($value));
         }
     }
 

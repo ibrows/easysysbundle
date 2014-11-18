@@ -16,12 +16,12 @@
 
         <parameter key="ibrows.easysys.connection.httpclient.buzz.client.class">Buzz\Client\Curl</parameter>
         <parameter key="ibrows.easysys.connection.httpclient.buzz.browser.class">Buzz\Browser</parameter>
-        <parameter key="ibrows.easysys.connection.httpclient.class">Saxulum\httpclient\Buzz\httpclient</parameter>
+        <parameter key="ibrows.easysys.connection.httpclient.class">Saxulum\HttpClient\Buzz\HttpClient</parameter>
     </parameters>
 
     <services>
         <service id="ibrows.easysys.connection" class="%ibrows.easysys.connection.class%">
-            <argument>%ibrows_easy_sys.connection.httpClient%</argument>
+            <argument type="service" id="ibrows.easysys.connection.httpclient"></argument>
             <argument>%ibrows_easy_sys.connection.companyName%</argument>
             <argument>%ibrows_easy_sys.connection.apiKey%</argument>
             <argument>%ibrows_easy_sys.connection.signatureKey%</argument>
