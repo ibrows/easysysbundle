@@ -14,6 +14,7 @@
         <parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysLibrary\API\Invoice</parameter>
         <parameter key="ibrows.easysys.stockarea.class">Ibrows\EasySysLibrary\API\StockArea</parameter>
         <parameter key="ibrows.easysys.stocklocation.class">Ibrows\EasySysLibrary\API\StockLocation</parameter>
+        <parameter key="ibrows.easysys.tax.class">Ibrows\EasySysLibrary\API\Tax</parameter>
 
         <!--<parameter key="ibrows.easysys.order.class">Ibrows\EasySysBundle\API\Order</parameter>-->
         <!--<parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysBundle\API\Invoice</parameter>-->
@@ -78,6 +79,13 @@
         </service>
 
         <service id="ibrows.easysys.stocklocation" class="%ibrows.easysys.stocklocation.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+        </service>
+
+        <service id="ibrows.easysys.tax" class="%ibrows.easysys.tax.class%">
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
