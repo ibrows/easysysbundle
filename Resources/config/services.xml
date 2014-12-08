@@ -93,7 +93,7 @@
             </call>
         </service>
 
-        <service id="ibrows.easysys.currency" class="%ibrows.easysys.tax.currency%">
+        <service id="ibrows.easysys.currency" class="%ibrows.easysys.currency.class%">
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
