@@ -1,12 +1,19 @@
 <?xml version="1.0" ?>
 
-<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
         <parameter key="ibrows.easysys.connection.class">Ibrows\EasySysLibrary\Connection\Connection</parameter>
         <parameter key="ibrows.easysys.savehandler.class">Ibrows\EasySysBundle\SaveHandler\BaseHandler</parameter>
+
         <parameter key="ibrows.easysys.contact.class">Ibrows\EasySysLibrary\API\Contact</parameter>
+        <parameter key="ibrows.easysys.order.class">Ibrows\EasySysLibrary\API\Order</parameter>
+        <parameter key="ibrows.easysys.article.class">Ibrows\EasySysLibrary\API\Article</parameter>
+        <parameter key="ibrows.easysys.articletype.class">Ibrows\EasySysLibrary\API\ArticleType</parameter>
+        <parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysLibrary\API\Invoice</parameter>
+        <parameter key="ibrows.easysys.stockarea.class">Ibrows\EasySysLibrary\API\StockArea</parameter>
+        <parameter key="ibrows.easysys.stocklocation.class">Ibrows\EasySysLibrary\API\StockLocation</parameter>
 
         <!--<parameter key="ibrows.easysys.order.class">Ibrows\EasySysBundle\API\Order</parameter>-->
         <!--<parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysBundle\API\Invoice</parameter>-->
@@ -21,7 +28,7 @@
 
     <services>
         <service id="ibrows.easysys.connection" class="%ibrows.easysys.connection.class%">
-            <argument type="service" id="ibrows.easysys.connection.httpclient"></argument>
+            <argument type="service" id="ibrows.easysys.connection.httpclient"/>
             <argument>%ibrows_easy_sys.connection.companyName%</argument>
             <argument>%ibrows_easy_sys.connection.apiKey%</argument>
             <argument>%ibrows_easy_sys.connection.signatureKey%</argument>
@@ -29,27 +36,72 @@
         </service>
 
         <service id="ibrows.easysys.contact" class="%ibrows.easysys.contact.class%">
-            <argument type="service" id="ibrows.easysys.connection" />
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+        </service>
+
+        <service id="ibrows.easysys.order" class="%ibrows.easysys.order.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+        </service>
+
+        <service id="ibrows.easysys.article" class="%ibrows.easysys.article.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+        </service>
+
+        <service id="ibrows.easysys.articletype" class="%ibrows.easysys.articletype.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+        </service>
+
+        <service id="ibrows.easysys.invoice" class="%ibrows.easysys.invoice.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+        </service>
+
+        <service id="ibrows.easysys.stockarea" class="%ibrows.easysys.stockarea.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+        </service>
+
+        <service id="ibrows.easysys.stocklocation" class="%ibrows.easysys.stocklocation.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
         </service>
 
         <!--<service id="ibrows.easysys.order" class="%ibrows.easysys.order.class%">-->
-            <!--<argument type="service" id="ibrows.easysys.connection" />-->
+        <!--<argument type="service" id="ibrows.easysys.connection" />-->
         <!--</service>-->
         <!--<service id="ibrows.easysys.offer" class="%ibrows.easysys.offer.class%">-->
-            <!--<argument type="service" id="ibrows.easysys.connection" />-->
+        <!--<argument type="service" id="ibrows.easysys.connection" />-->
         <!--</service>-->
         <!--<service id="ibrows.easysys.invoice" class="%ibrows.easysys.invoice.class%">-->
-            <!--<argument type="service" id="ibrows.easysys.connection" />-->
+        <!--<argument type="service" id="ibrows.easysys.connection" />-->
         <!--</service>                -->
         <!--<service id="ibrows.easysys.monitoring" class="%ibrows.easysys.monitoring.class%">-->
-            <!--<argument type="service" id="ibrows.easysys.connection" />-->
+        <!--<argument type="service" id="ibrows.easysys.connection" />-->
         <!--</service>-->
         <!--<service id="ibrows.easysys.invoice.reminder" class="%ibrows.easysys.invoice.reminder.class%">-->
-            <!--<argument type="service" id="ibrows.easysys.connection" />-->
+        <!--<argument type="service" id="ibrows.easysys.connection" />-->
         <!--</service>-->
 
         <service id="ibrows.easysys.savehandler" class="%ibrows.easysys.savehandler.class%">
-            <argument type="service" id="doctrine" />
+            <argument type="service" id="doctrine"/>
             <call method="setClassmap">
                 <argument>%ibrows_easy_sys.classes%</argument>
             </call>
@@ -65,10 +117,10 @@
             </call>
         </service>
         <service id="ibrows.easysys.connection.httpclient.buzz.browser" class="%ibrows.easysys.connection.httpclient.buzz.browser.class%">
-            <argument type="service" id="ibrows.easysys.connection.httpclient.buzz.client" />
+            <argument type="service" id="ibrows.easysys.connection.httpclient.buzz.client"/>
         </service>
         <service id="ibrows.easysys.connection.httpclient" class="%ibrows.easysys.connection.httpclient.class%">
-            <argument type="service" id="ibrows.easysys.connection.httpclient.buzz.browser" />
+            <argument type="service" id="ibrows.easysys.connection.httpclient.buzz.browser"/>
         </service>
 
 
