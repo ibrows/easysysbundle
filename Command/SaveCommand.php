@@ -1,6 +1,6 @@
 <?php
 namespace Ibrows\EasySysBundle\Command;
-use Ibrows\EasySysBundle\API\Contact;
+use Ibrows\EasySysBundle\Api\Contact;
 
 use Ibrows\EasySysBundle\IbrowsEasySysBundle;
 

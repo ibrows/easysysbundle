@@ -7,21 +7,21 @@
         <parameter key="ibrows.easysys.connection.class">Ibrows\EasySysLibrary\Connection\Connection</parameter>
         <parameter key="ibrows.easysys.savehandler.class">Ibrows\EasySysBundle\SaveHandler\BaseHandler</parameter>
 
-        <parameter key="ibrows.easysys.contact.class">Ibrows\EasySysLibrary\API\Contact</parameter>
-        <parameter key="ibrows.easysys.order.class">Ibrows\EasySysLibrary\API\Order</parameter>
-        <parameter key="ibrows.easysys.article.class">Ibrows\EasySysLibrary\API\Article</parameter>
-        <parameter key="ibrows.easysys.articletype.class">Ibrows\EasySysLibrary\API\ArticleType</parameter>
-        <parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysLibrary\API\Invoice</parameter>
-        <parameter key="ibrows.easysys.stockarea.class">Ibrows\EasySysLibrary\API\StockArea</parameter>
-        <parameter key="ibrows.easysys.stocklocation.class">Ibrows\EasySysLibrary\API\StockLocation</parameter>
-        <parameter key="ibrows.easysys.tax.class">Ibrows\EasySysLibrary\API\Tax</parameter>
-        <parameter key="ibrows.easysys.currency.class">Ibrows\EasySysLibrary\API\Currency</parameter>
+        <parameter key="ibrows.easysys.contact.class">Ibrows\EasySysLibrary\Api\ContactApi</parameter>
+        <parameter key="ibrows.easysys.order.class">Ibrows\EasySysLibrary\Api\OrderApi</parameter>
+        <parameter key="ibrows.easysys.article.class">Ibrows\EasySysLibrary\Api\ArticleApi</parameter>
+        <parameter key="ibrows.easysys.articletype.class">Ibrows\EasySysLibrary\Api\ArticleTypeApi</parameter>
+        <parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysLibrary\Api\InvoiceApi</parameter>
+        <parameter key="ibrows.easysys.stockarea.class">Ibrows\EasySysLibrary\Api\StockAreaApi</parameter>
+        <parameter key="ibrows.easysys.stocklocation.class">Ibrows\EasySysLibrary\Api\StockLocationApi</parameter>
+        <parameter key="ibrows.easysys.tax.class">Ibrows\EasySysLibrary\Api\TaxApi</parameter>
+        <parameter key="ibrows.easysys.currency.class">Ibrows\EasySysLibrary\Api\CurrencyApi</parameter>
 
-        <!--<parameter key="ibrows.easysys.order.class">Ibrows\EasySysBundle\API\Order</parameter>-->
-        <!--<parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysBundle\API\Invoice</parameter>-->
-        <!--<parameter key="ibrows.easysys.offer.class">Ibrows\EasySysBundle\API\Offer</parameter>-->
-        <!--<parameter key="ibrows.easysys.monitoring.class">Ibrows\EasySysBundle\API\Monitoring</parameter>-->
-        <!--<parameter key="ibrows.easysys.invoice.reminder.class">Ibrows\EasySysBundle\API\InvoiceReminder</parameter>-->
+        <!--<parameter key="ibrows.easysys.order.class">Ibrows\EasySysBundle\Api\Order</parameter>-->
+        <!--<parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysBundle\Api\Invoice</parameter>-->
+        <!--<parameter key="ibrows.easysys.offer.class">Ibrows\EasySysBundle\Api\Offer</parameter>-->
+        <!--<parameter key="ibrows.easysys.monitoring.class">Ibrows\EasySysBundle\Api\Monitoring</parameter>-->
+        <!--<parameter key="ibrows.easysys.invoice.reminder.class">Ibrows\EasySysBundle\Api\InvoiceReminder</parameter>-->
 
         <parameter key="ibrows.easysys.connection.httpclient.buzz.client.class">Buzz\Client\Curl</parameter>
         <parameter key="ibrows.easysys.connection.httpclient.buzz.browser.class">Buzz\Browser</parameter>
@@ -39,7 +39,7 @@
             <argument>%ibrows_easy_sys.connection.userId%</argument>
         </service>
 
-        <!-- APIs -->
+        <!-- Apis -->
 
         <service id="ibrows.easysys.contact" class="%ibrows.easysys.contact.class%">
             <argument type="service" id="ibrows.easysys.connection"/>
