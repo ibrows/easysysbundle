@@ -37,7 +37,7 @@ class Configuration implements ConfigurationInterface
 
 
             ->scalarNode('handlerservice')->defaultValue('ibrows.easysys.savehandler')->end()
-
+            ->scalarNode('throwExceptionOnAdditionalData')->defaultValue(null)->end()
 
             ->end()
         ;

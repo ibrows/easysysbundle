@@ -1,11 +1,12 @@
 <?php
 
 namespace Ibrows\EasySysBundle\DependencyInjection;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -21,22 +22,38 @@ class IbrowsEasySysExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+
         $this->registerContainerParametersRecursive($config, $container);
+
+        $throwExceptionOnAdditionalDataParameter = 'ibrows_easy_sys.throwExceptionOnAdditionalData';
+        if (
+            !$container->hasParameter($throwExceptionOnAdditionalDataParameter) ||
+            is_null($container->getParameter($throwExceptionOnAdditionalDataParameter))
+        ) {
+            $container->setParameter($throwExceptionOnAdditionalDataParameter, $container->getParameter('kernel.debug'));
+        }
+
         $connection = $container->getDefinition("ibrows.easysys.connection");
-        $connection->replaceArgument(0,new Reference($config['connection']['httpClientServiceId']));
+        $connection->replaceArgument(0, new Reference($config['connection']['httpClientServiceId']));
         unset($config['connection']['httpClientServiceId']);
+
         foreach ($config['connection'] as $key => $value) {
-                $connection->addMethodCall('set' . ucfirst($key), array($value));
+            $connection->addMethodCall('set' . ucfirst($key), array($value));
         }
     }
 
-    protected function registerContainerParametersRecursive($config, ContainerBuilder $container, $prefix = null)
+    /**
+     * @param array $configs
+     * @param ContainerBuilder $container
+     * @param null $prefix
+     */
+    protected function registerContainerParametersRecursive(array $configs, ContainerBuilder $container, $prefix = null)
     {
         if (!$prefix) {
             $prefix = $this->getAlias();
         }
 
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($config), \RecursiveIteratorIterator::SELF_FIRST);
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($configs), \RecursiveIteratorIterator::SELF_FIRST);
 
         foreach ($iterator as $value) {
             $path = array();

@@ -29,6 +29,8 @@
     </parameters>
 
     <services>
+        <!-- Connection -->
+
         <service id="ibrows.easysys.connection" class="%ibrows.easysys.connection.class%">
             <argument type="service" id="ibrows.easysys.connection.httpclient"/>
             <argument>%ibrows_easy_sys.connection.companyName%</argument>
@@ -37,10 +39,15 @@
             <argument>%ibrows_easy_sys.connection.userId%</argument>
         </service>
 
+        <!-- APIs -->
+
         <service id="ibrows.easysys.contact" class="%ibrows.easysys.contact.class%">
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
         </service>
 
@@ -49,12 +56,18 @@
             <call method="setLogger">
                 <argument type="service" id="logger"/>
             </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
         </service>
 
         <service id="ibrows.easysys.article" class="%ibrows.easysys.article.class%">
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
         </service>
 
@@ -63,12 +76,18 @@
             <call method="setLogger">
                 <argument type="service" id="logger"/>
             </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
         </service>
 
         <service id="ibrows.easysys.invoice" class="%ibrows.easysys.invoice.class%">
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
         </service>
 
@@ -77,12 +96,18 @@
             <call method="setLogger">
                 <argument type="service" id="logger"/>
             </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
         </service>
 
         <service id="ibrows.easysys.stocklocation" class="%ibrows.easysys.stocklocation.class%">
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
         </service>
 
@@ -91,12 +116,18 @@
             <call method="setLogger">
                 <argument type="service" id="logger"/>
             </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
         </service>
 
         <service id="ibrows.easysys.currency" class="%ibrows.easysys.currency.class%">
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
         </service>
 
@@ -116,6 +147,8 @@
         <!--<argument type="service" id="ibrows.easysys.connection" />-->
         <!--</service>-->
 
+        <!-- SaveHandler -->
+
         <service id="ibrows.easysys.savehandler" class="%ibrows.easysys.savehandler.class%">
             <argument type="service" id="doctrine"/>
             <call method="setClassmap">
@@ -126,19 +159,20 @@
             </call>
         </service>
 
+        <!-- HttpClient -->
 
         <service id="ibrows.easysys.connection.httpclient.buzz.client" class="%ibrows.easysys.connection.httpclient.buzz.client.class%">
             <call method="setVerifyPeer">
                 <argument>false</argument>
             </call>
         </service>
+
         <service id="ibrows.easysys.connection.httpclient.buzz.browser" class="%ibrows.easysys.connection.httpclient.buzz.browser.class%">
             <argument type="service" id="ibrows.easysys.connection.httpclient.buzz.client"/>
         </service>
+
         <service id="ibrows.easysys.connection.httpclient" class="%ibrows.easysys.connection.httpclient.class%">
             <argument type="service" id="ibrows.easysys.connection.httpclient.buzz.browser"/>
         </service>
-
-
     </services>
 </container>
