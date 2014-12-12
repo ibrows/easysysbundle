@@ -25,7 +25,7 @@
         "symfony/config": "~2.3",
         "symfony/dependency-injection": "~2.3",
         "symfony/http-kernel": "~2.3",
-        "ibrows/easysys-library": "dev-master",
+        "ibrows/easysys-library": "~1.0",
         "saxulum/saxulum-http-client-adapter-buzz": "~1.0,>=1.0.4"
     },
     "require-dev": {
