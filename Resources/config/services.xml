@@ -25,6 +25,7 @@
         <!--<parameter key="ibrows.easysys.invoice.reminder.class">Ibrows\EasySysBundle\Api\InvoiceReminder</parameter>-->
 
         <parameter key="ibrows.easysys.connection.httpclient.buzz.client.class">Buzz\Client\Curl</parameter>
+        <parameter key="ibrows.easysys.connection.httpclient.buzz.client.timeout">5</parameter>
         <parameter key="ibrows.easysys.connection.httpclient.buzz.browser.class">Buzz\Browser</parameter>
         <parameter key="ibrows.easysys.connection.httpclient.class">Saxulum\HttpClient\Buzz\HttpClient</parameter>
     </parameters>
@@ -175,6 +176,9 @@
         <service id="ibrows.easysys.connection.httpclient.buzz.client" class="%ibrows.easysys.connection.httpclient.buzz.client.class%">
             <call method="setVerifyPeer">
                 <argument>false</argument>
+            </call>
+            <call method="setTimeout">
+                <argument>%ibrows.easysys.connection.httpclient.buzz.client.timeout%</argument>
             </call>
         </service>
 
