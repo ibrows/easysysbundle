@@ -9,6 +9,7 @@
 
         <parameter key="ibrows.easysys.contact.class">Ibrows\EasySysLibrary\Api\ContactApi</parameter>
         <parameter key="ibrows.easysys.order.class">Ibrows\EasySysLibrary\Api\OrderApi</parameter>
+        <parameter key="ibrows.easysys.delivery.class">Ibrows\EasySysLibrary\Api\DeliveryApi</parameter>
         <parameter key="ibrows.easysys.article.class">Ibrows\EasySysLibrary\Api\ArticleApi</parameter>
         <parameter key="ibrows.easysys.articletype.class">Ibrows\EasySysLibrary\Api\ArticleTypeApi</parameter>
         <parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysLibrary\Api\InvoiceApi</parameter>
@@ -52,6 +53,16 @@
         </service>
 
         <service id="ibrows.easysys.order" class="%ibrows.easysys.order.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+        </service>
+
+        <service id="ibrows.easysys.delivery" class="%ibrows.easysys.delivery.class%">
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
