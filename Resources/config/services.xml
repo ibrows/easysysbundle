@@ -1,50 +1,182 @@
 <?xml version="1.0" ?>
 
-<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="ibrows.easysys.connection.class">Ibrows\EasySysBundle\Connection\Connection</parameter>
+        <parameter key="ibrows.easysys.connection.class">Ibrows\EasySysLibrary\Connection\Connection</parameter>
         <parameter key="ibrows.easysys.savehandler.class">Ibrows\EasySysBundle\SaveHandler\BaseHandler</parameter>
-        <parameter key="ibrows.easysys.contact.class">Ibrows\EasySysBundle\API\Contact</parameter>
-        <parameter key="ibrows.easysys.order.class">Ibrows\EasySysBundle\API\Order</parameter>
-        <parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysBundle\API\Invoice</parameter>
-        <parameter key="ibrows.easysys.offer.class">Ibrows\EasySysBundle\API\Offer</parameter>
-        <parameter key="ibrows.easysys.monitoring.class">Ibrows\EasySysBundle\API\Monitoring</parameter>
-        <parameter key="ibrows.easysys.invoice.reminder.class">Ibrows\EasySysBundle\API\InvoiceReminder</parameter>
+
+        <parameter key="ibrows.easysys.contact.class">Ibrows\EasySysLibrary\Api\ContactApi</parameter>
+        <parameter key="ibrows.easysys.order.class">Ibrows\EasySysLibrary\Api\OrderApi</parameter>
+        <parameter key="ibrows.easysys.delivery.class">Ibrows\EasySysLibrary\Api\DeliveryApi</parameter>
+        <parameter key="ibrows.easysys.article.class">Ibrows\EasySysLibrary\Api\ArticleApi</parameter>
+        <parameter key="ibrows.easysys.articletype.class">Ibrows\EasySysLibrary\Api\ArticleTypeApi</parameter>
+        <parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysLibrary\Api\InvoiceApi</parameter>
+        <parameter key="ibrows.easysys.stockarea.class">Ibrows\EasySysLibrary\Api\StockAreaApi</parameter>
+        <parameter key="ibrows.easysys.stocklocation.class">Ibrows\EasySysLibrary\Api\StockLocationApi</parameter>
+        <parameter key="ibrows.easysys.tax.class">Ibrows\EasySysLibrary\Api\TaxApi</parameter>
+        <parameter key="ibrows.easysys.currency.class">Ibrows\EasySysLibrary\Api\CurrencyApi</parameter>
+
+        <!--<parameter key="ibrows.easysys.order.class">Ibrows\EasySysBundle\Api\Order</parameter>-->
+        <!--<parameter key="ibrows.easysys.invoice.class">Ibrows\EasySysBundle\Api\Invoice</parameter>-->
+        <!--<parameter key="ibrows.easysys.offer.class">Ibrows\EasySysBundle\Api\Offer</parameter>-->
+        <!--<parameter key="ibrows.easysys.monitoring.class">Ibrows\EasySysBundle\Api\Monitoring</parameter>-->
+        <!--<parameter key="ibrows.easysys.invoice.reminder.class">Ibrows\EasySysBundle\Api\InvoiceReminder</parameter>-->
+
+        <parameter key="ibrows.easysys.connection.httpclient.buzz.client.class">Buzz\Client\Curl</parameter>
+        <parameter key="ibrows.easysys.connection.httpclient.buzz.client.timeout">5</parameter>
+        <parameter key="ibrows.easysys.connection.httpclient.buzz.browser.class">Buzz\Browser</parameter>
+        <parameter key="ibrows.easysys.connection.httpclient.class">Saxulum\HttpClient\Buzz\HttpClient</parameter>
     </parameters>
 
     <services>
+        <!-- Connection -->
+
         <service id="ibrows.easysys.connection" class="%ibrows.easysys.connection.class%">
-            <argument>%ibrows_easy_sys.connection.serviceUri%</argument>
+            <argument type="service" id="ibrows.easysys.connection.httpclient"/>
             <argument>%ibrows_easy_sys.connection.companyName%</argument>
             <argument>%ibrows_easy_sys.connection.apiKey%</argument>
             <argument>%ibrows_easy_sys.connection.signatureKey%</argument>
             <argument>%ibrows_easy_sys.connection.userId%</argument>
-            <argument>%ibrows_easy_sys.connection.format%</argument>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
+
+        <!-- Apis -->
 
         <service id="ibrows.easysys.contact" class="%ibrows.easysys.contact.class%">
-            <argument type="service" id="ibrows.easysys.connection" />
-        </service>
-        <service id="ibrows.easysys.order" class="%ibrows.easysys.order.class%">
-            <argument type="service" id="ibrows.easysys.connection" />
-        </service>
-        <service id="ibrows.easysys.offer" class="%ibrows.easysys.offer.class%">
-            <argument type="service" id="ibrows.easysys.connection" />
-        </service>
-        <service id="ibrows.easysys.invoice" class="%ibrows.easysys.invoice.class%">
-            <argument type="service" id="ibrows.easysys.connection" />
-        </service>                
-        <service id="ibrows.easysys.monitoring" class="%ibrows.easysys.monitoring.class%">
-            <argument type="service" id="ibrows.easysys.connection" />
-        </service>
-        <service id="ibrows.easysys.invoice.reminder" class="%ibrows.easysys.invoice.reminder.class%">
-            <argument type="service" id="ibrows.easysys.connection" />
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
+        <service id="ibrows.easysys.order" class="%ibrows.easysys.order.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
+        </service>
+
+        <service id="ibrows.easysys.delivery" class="%ibrows.easysys.delivery.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
+        </service>
+
+        <service id="ibrows.easysys.article" class="%ibrows.easysys.article.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
+        </service>
+
+        <service id="ibrows.easysys.articletype" class="%ibrows.easysys.articletype.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
+        </service>
+
+        <service id="ibrows.easysys.invoice" class="%ibrows.easysys.invoice.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
+        </service>
+
+        <service id="ibrows.easysys.stockarea" class="%ibrows.easysys.stockarea.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
+        </service>
+
+        <service id="ibrows.easysys.stocklocation" class="%ibrows.easysys.stocklocation.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
+        </service>
+
+        <service id="ibrows.easysys.tax" class="%ibrows.easysys.tax.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
+        </service>
+
+        <service id="ibrows.easysys.currency" class="%ibrows.easysys.currency.class%">
+            <argument type="service" id="ibrows.easysys.connection"/>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <call method="setThrowExceptionOnAdditionalData">
+                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
+        </service>
+
+        <!--<service id="ibrows.easysys.order" class="%ibrows.easysys.order.class%">-->
+        <!--<argument type="service" id="ibrows.easysys.connection" />-->
+        <!--</service>-->
+        <!--<service id="ibrows.easysys.offer" class="%ibrows.easysys.offer.class%">-->
+        <!--<argument type="service" id="ibrows.easysys.connection" />-->
+        <!--</service>-->
+        <!--<service id="ibrows.easysys.invoice" class="%ibrows.easysys.invoice.class%">-->
+        <!--<argument type="service" id="ibrows.easysys.connection" />-->
+        <!--</service>                -->
+        <!--<service id="ibrows.easysys.monitoring" class="%ibrows.easysys.monitoring.class%">-->
+        <!--<argument type="service" id="ibrows.easysys.connection" />-->
+        <!--</service>-->
+        <!--<service id="ibrows.easysys.invoice.reminder" class="%ibrows.easysys.invoice.reminder.class%">-->
+        <!--<argument type="service" id="ibrows.easysys.connection" />-->
+        <!--</service>-->
+
+        <!-- SaveHandler -->
+
         <service id="ibrows.easysys.savehandler" class="%ibrows.easysys.savehandler.class%">
-            <argument type="service" id="doctrine" />
+            <argument type="service" id="doctrine"/>
             <call method="setClassmap">
                 <argument>%ibrows_easy_sys.classes%</argument>
             </call>
@@ -53,5 +185,23 @@
             </call>
         </service>
 
+        <!-- HttpClient -->
+
+        <service id="ibrows.easysys.connection.httpclient.buzz.client" class="%ibrows.easysys.connection.httpclient.buzz.client.class%">
+            <call method="setVerifyPeer">
+                <argument>false</argument>
+            </call>
+            <call method="setTimeout">
+                <argument>%ibrows.easysys.connection.httpclient.buzz.client.timeout%</argument>
+            </call>
+        </service>
+
+        <service id="ibrows.easysys.connection.httpclient.buzz.browser" class="%ibrows.easysys.connection.httpclient.buzz.browser.class%">
+            <argument type="service" id="ibrows.easysys.connection.httpclient.buzz.client"/>
+        </service>
+
+        <service id="ibrows.easysys.connection.httpclient" class="%ibrows.easysys.connection.httpclient.class%">
+            <argument type="service" id="ibrows.easysys.connection.httpclient.buzz.browser"/>
+        </service>
     </services>
 </container>
