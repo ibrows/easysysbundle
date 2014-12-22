@@ -39,6 +39,10 @@
             <argument>%ibrows_easy_sys.connection.apiKey%</argument>
             <argument>%ibrows_easy_sys.connection.signatureKey%</argument>
             <argument>%ibrows_easy_sys.connection.userId%</argument>
+            <call method="setLogger">
+                <argument type="service" id="logger"/>
+            </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <!-- Apis -->
@@ -51,6 +55,7 @@
             <call method="setThrowExceptionOnAdditionalData">
                 <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <service id="ibrows.easysys.order" class="%ibrows.easysys.order.class%">
@@ -61,6 +66,7 @@
             <call method="setThrowExceptionOnAdditionalData">
                 <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <service id="ibrows.easysys.delivery" class="%ibrows.easysys.delivery.class%">
@@ -71,6 +77,7 @@
             <call method="setThrowExceptionOnAdditionalData">
                 <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <service id="ibrows.easysys.article" class="%ibrows.easysys.article.class%">
@@ -81,6 +88,7 @@
             <call method="setThrowExceptionOnAdditionalData">
                 <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <service id="ibrows.easysys.articletype" class="%ibrows.easysys.articletype.class%">
@@ -91,6 +99,7 @@
             <call method="setThrowExceptionOnAdditionalData">
                 <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <service id="ibrows.easysys.invoice" class="%ibrows.easysys.invoice.class%">
@@ -101,6 +110,7 @@
             <call method="setThrowExceptionOnAdditionalData">
                 <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <service id="ibrows.easysys.stockarea" class="%ibrows.easysys.stockarea.class%">
@@ -111,6 +121,7 @@
             <call method="setThrowExceptionOnAdditionalData">
                 <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <service id="ibrows.easysys.stocklocation" class="%ibrows.easysys.stocklocation.class%">
@@ -121,6 +132,7 @@
             <call method="setThrowExceptionOnAdditionalData">
                 <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <service id="ibrows.easysys.tax" class="%ibrows.easysys.tax.class%">
@@ -131,6 +143,7 @@
             <call method="setThrowExceptionOnAdditionalData">
                 <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <service id="ibrows.easysys.currency" class="%ibrows.easysys.currency.class%">
@@ -141,6 +154,7 @@
             <call method="setThrowExceptionOnAdditionalData">
                 <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
+            <tag name="monolog.logger" channel="easysys" />
         </service>
 
         <!--<service id="ibrows.easysys.order" class="%ibrows.easysys.order.class%">-->
