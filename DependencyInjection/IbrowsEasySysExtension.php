@@ -2,6 +2,7 @@
 
 namespace Ibrows\EasySysBundle\DependencyInjection;
 
+use Ibrows\EasySysLibrary\Converter\AbstractConverter;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -22,16 +23,9 @@ class IbrowsEasySysExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-
         $this->registerContainerParametersRecursive($config, $container);
 
-        $throwExceptionOnAdditionalDataParameter = 'ibrows_easy_sys.throwExceptionOnAdditionalData';
-        if (
-            !$container->hasParameter($throwExceptionOnAdditionalDataParameter) ||
-            is_null($container->getParameter($throwExceptionOnAdditionalDataParameter))
-        ) {
-            $container->setParameter($throwExceptionOnAdditionalDataParameter, $container->getParameter('kernel.debug'));
-        }
+        AbstractConverter::setThrowExceptionOnAdditionalData($this->isThrowExceptionOnAdditionalData($container));
 
         $connection = $container->getDefinition("ibrows.easysys.connection");
         $connection->replaceArgument(0, new Reference($config['connection']['httpClientServiceId']));
@@ -40,6 +34,23 @@ class IbrowsEasySysExtension extends Extension
         foreach ($config['connection'] as $key => $value) {
             $connection->addMethodCall('set' . ucfirst($key), array($value));
         }
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @return bool
+     */
+    protected function isThrowExceptionOnAdditionalData(ContainerBuilder $container)
+    {
+        $throwExceptionOnAdditionalDataParameter = 'ibrows_easy_sys.throwExceptionOnAdditionalData';
+        if (
+            $container->hasParameter($throwExceptionOnAdditionalDataParameter) &&
+            !is_null($flag = $container->getParameter($throwExceptionOnAdditionalDataParameter))
+        ) {
+            return (bool)$flag;
+        }
+
+        return (bool)$container->getParameter('kernel.debug');
     }
 
     /**

@@ -52,9 +52,6 @@
             <call method="setLogger">
                 <argument type="service" id="logger"/>
             </call>
-            <call method="setThrowExceptionOnAdditionalData">
-                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
-            </call>
             <tag name="monolog.logger" channel="easysys" />
         </service>
 
@@ -62,9 +59,6 @@
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
-            </call>
-            <call method="setThrowExceptionOnAdditionalData">
-                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
             <tag name="monolog.logger" channel="easysys" />
         </service>
@@ -74,9 +68,6 @@
             <call method="setLogger">
                 <argument type="service" id="logger"/>
             </call>
-            <call method="setThrowExceptionOnAdditionalData">
-                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
-            </call>
             <tag name="monolog.logger" channel="easysys" />
         </service>
 
@@ -84,9 +75,6 @@
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
-            </call>
-            <call method="setThrowExceptionOnAdditionalData">
-                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
             <tag name="monolog.logger" channel="easysys" />
         </service>
@@ -96,9 +84,6 @@
             <call method="setLogger">
                 <argument type="service" id="logger"/>
             </call>
-            <call method="setThrowExceptionOnAdditionalData">
-                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
-            </call>
             <tag name="monolog.logger" channel="easysys" />
         </service>
 
@@ -106,9 +91,6 @@
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
-            </call>
-            <call method="setThrowExceptionOnAdditionalData">
-                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
             <tag name="monolog.logger" channel="easysys" />
         </service>
@@ -118,9 +100,6 @@
             <call method="setLogger">
                 <argument type="service" id="logger"/>
             </call>
-            <call method="setThrowExceptionOnAdditionalData">
-                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
-            </call>
             <tag name="monolog.logger" channel="easysys" />
         </service>
 
@@ -128,9 +107,6 @@
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
-            </call>
-            <call method="setThrowExceptionOnAdditionalData">
-                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
             <tag name="monolog.logger" channel="easysys" />
         </service>
@@ -140,9 +116,6 @@
             <call method="setLogger">
                 <argument type="service" id="logger"/>
             </call>
-            <call method="setThrowExceptionOnAdditionalData">
-                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
-            </call>
             <tag name="monolog.logger" channel="easysys" />
         </service>
 
@@ -150,9 +123,6 @@
             <argument type="service" id="ibrows.easysys.connection"/>
             <call method="setLogger">
                 <argument type="service" id="logger"/>
-            </call>
-            <call method="setThrowExceptionOnAdditionalData">
-                <argument>%ibrows_easy_sys.throwExceptionOnAdditionalData%</argument>
             </call>
             <tag name="monolog.logger" channel="easysys" />
         </service>
