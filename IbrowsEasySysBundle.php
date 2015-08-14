@@ -2,11 +2,12 @@
 
 namespace Ibrows\EasySysBundle;
 
+use Ibrows\EasySysLibrary\Converter\AbstractConverter;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class IbrowsEasySysBundle extends Bundle
 {
-
     const types = "
                 article
                 article_type
@@ -38,17 +39,41 @@ class IbrowsEasySysBundle extends Bundle
                 user
                 ";
 
+    /**
+     * @return array
+     */
     public static function getTypes()
     {
-        $arr = preg_split('/\s+/', trim(self::types))  ;
-        $arr2  = array();
-        foreach($arr as $type){
+        $arr = preg_split('/\s+/', trim(self::types));
+        $arr2 = array();
+        foreach ($arr as $type) {
             $internaltype = str_replace('kb_', '', $type);
             $arr2[$internaltype] = $type;
         }
         return $arr2;
     }
 
+    public function boot()
+    {
+        AbstractConverter::setThrowExceptionOnAdditionalData(
+            $this->isThrowExceptionOnAdditionalData($this->container)
+        );
+    }
 
+    /**
+     * @param ContainerInterface $container
+     * @return bool
+     */
+    private function isThrowExceptionOnAdditionalData(ContainerInterface $container)
+    {
+        $throwExceptionOnAdditionalDataParameter = 'ibrows_easy_sys.throwExceptionOnAdditionalData';
+        if (
+            $container->hasParameter($throwExceptionOnAdditionalDataParameter) &&
+            !is_null($flag = $container->getParameter($throwExceptionOnAdditionalDataParameter))
+        ) {
+            return (bool)$flag;
+        }
 
+        return (bool)$container->getParameter('kernel.debug');
+    }
 }
