@@ -34,6 +34,7 @@
     "autoload": {
         "psr-4": {"Ibrows\\EasySysBundle\\": ""}
     },
+    "minimum-stability": "dev",
     "repositories": [
         {
             "type": "vcs",
