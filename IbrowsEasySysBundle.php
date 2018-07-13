@@ -5,6 +5,7 @@ namespace Ibrows\EasySysBundle;
 use Ibrows\EasySysLibrary\Converter\AbstractConverter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Ibrows\EasySysBundle\Converter\Converter;
 
 class IbrowsEasySysBundle extends Bundle
 {
@@ -39,6 +40,13 @@ class IbrowsEasySysBundle extends Bundle
                 user
                 ";
 
+    public $converter;
+
+    public function __construct()
+    {
+        $this->converter = new Converter();
+    }
+
     /**
      * @return array
      */
@@ -55,7 +63,7 @@ class IbrowsEasySysBundle extends Bundle
 
     public function boot()
     {
-        AbstractConverter::setThrowExceptionOnAdditionalData(
+        $this->converter->setThrowExceptionOnAdditionalData(
             $this->isThrowExceptionOnAdditionalData($this->container)
         );
     }
